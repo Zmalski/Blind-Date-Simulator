@@ -129,7 +129,7 @@ public class determineOutput {
 		 }
 		 
 		if(hash_map.containsKey(data)) {
-			 responseBack = (String) hash_map.get(data);	
+			 responseBack = hash_map.get(data);	
 		 }else
 			 responseBack = "I am sorry, I don't understand the question.";
 		 return responseBack;
