@@ -3,8 +3,19 @@ import java.util.HashMap;
 
 public class determineOutput {
 
+	
 	String professionResponse = "";
 	boolean condition = false;
+	public boolean movies = false;
+	public boolean music = false;
+	public boolean howrub = false;
+	public boolean countries = false;
+	public boolean hobbies = false;
+	public boolean dislikes = false;
+	public boolean sports = false;
+	public boolean rps = false;
+	public boolean foodb = false;
+	public boolean animals = false;
 	/**
 	 * Returns a response for a given String
 	 * 
@@ -70,12 +81,18 @@ public class determineOutput {
 		 /**qlikes */
 		 if(data.equals("qhobbies")) {
 			 String hobbiesReturn = returnString(list1);
+			 if(hobbies == true)
+				 hash_map.put("qhobbies","You already asked me that! Are you even paying attention?");
 			 hash_map.put("qhobbies", "My hobbies are " + hobbiesReturn);
+			 hobbies = true;
 		 }
 		 /**qdislikes*/
 		 if(data.equals("qdislikes")) {
 			String dislikesReturn2 = returnString(list2);
+			 if(dislikes == true)
+				 hash_map.put("qdislikes","You already asked me that! Are you even paying attention?");
 			hash_map.put("qdislikes","I dislike " +  dislikesReturn2);
+			dislikes = true;
 		 }
 		 /**qjob*/
 		 hash_map.put("qjob", personality.getOccupation());
@@ -91,6 +108,7 @@ public class determineOutput {
 		 if(data.equals("howru")) {
 			String howru = returnHouwru(); 
 			 hash_map.put("howru", howru);
+			 howrub = true;
 		 }
 		 /**student */
 		 if(data.equals("student")) {
@@ -99,33 +117,51 @@ public class determineOutput {
 		/**qsports*/
 		 if(data.equals("qsports")) {
 			String likeSports = returnString(likeSportsList);
+			 if(sports == true)
+				 hash_map.put("qsports","You already asked me that! Are you even paying attention?");
 			 hash_map.put("qsports","The sports I like are " + likeSports);
+			 sports = true;
 		 }
 		 /**qmusic*/
 		 if(data.equals("qmusic")) {
 			String likeMusicString = returnString(likeMusic);
+			 if(music == true)
+				 hash_map.put("qmusic","You already asked me that! Are you even paying attention?");
 			 hash_map.put("qmusic","I really like " + likeMusicString);
+			 music = true;
 
 		 }
 		 /**qanimals*/
 		 if(data.equals("qanimals")) {
 			String likeAnimalString = returnString(likeAnimal);
+			 if(animals == true)
+				 hash_map.put("qanimals","You already asked me that! Are you even paying attention?");
 			 hash_map.put("qanimals","The animals I like are " + likeAnimalString);
+			 animals = true;
 		 }
 		 /**qcountries*/
 		 if(data.equals("qcountries")) {
 			 String likeCountriesString = returnString(likeCountries);
+			 if(countries == true)
+				 hash_map.put("qcountries","You already asked me that! Are you even paying attention?");
 			 hash_map.put("qcountries","The countries I would like to travel to are " +  likeCountriesString );
+			 countries = true;
 		 }
 		 /**qmovies*/
 		 if(data.equals("qmovies")) {
 			String likeMoviesString = returnString(likeMovies);
+			 if(movies == true)
+				 hash_map.put("qmovies","You already asked me that! Are you even paying attention?");
 			hash_map.put("qmovies","The movies I like are " +  likeMoviesString);
+			movies = true;
 		 }
 		 /**qfood*/
 		 if(data.equals("qfood")) {
 			 String food = returnString(likefood);
+			 if(foodb == true)
+				 hash_map.put("qfood","You already asked me that! Are you even paying attention?");
 			 hash_map.put("qfood","Some food I like is " +  food);
+			 foodb = true;
 		 }
 		 
 		if(hash_map.containsKey(data)) {
