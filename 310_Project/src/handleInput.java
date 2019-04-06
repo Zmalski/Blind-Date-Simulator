@@ -338,6 +338,7 @@ public class handleInput {
 	 * @return name contained within the input string
 	 */
 	public String parseName(String input) {
+		String name = "";
 		String[] words = input.split(" ");
 		if (words.length < 2)
 			return words[words.length - 1];
@@ -346,18 +347,25 @@ public class handleInput {
 		int count = 0;
 		for (String word : words) {
 			if (Character.isUpperCase(word.charAt(0))) {
-				capcount++;
-				lastindex = count;
+				if (!word.toLowerCase().equals("my") && !word.toLowerCase().equals("i'm")
+						&& !word.toLowerCase().equals("im")) {
+
+					capcount++;
+					lastindex = count;
+				}
 			}
 			count++;
 		}
 		if (capcount > 1)
-			return words[lastindex];
+			name = words[lastindex];
 		else if (words[0].toLowerCase().equals("my") || words[0].toLowerCase().equals("i'm")
 				|| words[0].toLowerCase().equals("im"))
-			return words[words.length - 1];
+			name = words[words.length - 1];
 		else
-			return words[0];
+			name = words[0];
+		if(name.equals(""))
+			name = "No name provided";
+		return name;
 	}
 
 	/**
@@ -369,9 +377,11 @@ public class handleInput {
 	 *         second is dislikes
 	 */
 	public String[] parseQResponse(String input, String data, Personality personality) {
-		String[] output = new String[2];
+		String[] output = new String[3];
 		output[0] = "";
 		output[1] = "";
+		output[2] = "";
+		int matches = 0;
 		Scanner scanner = null;
 		input = processInput(input);
 		String arrayString = "";
@@ -383,6 +393,7 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[0] = output[0] + s + ", ";
+					matches++;
 				}
 			}
 			arrayString = listToString(personality.getDislikesMovies());
@@ -391,6 +402,7 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[1] = output[1] + s + ", ";
+					matches--;
 				}
 			}
 		}
@@ -401,6 +413,7 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[0] = output[0] + s + ", ";
+					matches++;
 				}
 			}
 			arrayString = listToString(personality.getDislikesCountries());
@@ -409,11 +422,13 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[1] = output[1] + s + ", ";
+					matches--;
 				}
 			}
 		}
 		if (data.equals("howru")) {
-			if(input.matches("(?i)(.*)\\bnot good\\b(.*)|(.*)\\bnot great\\b(.*)|(.*)\\bad day\\b(.*)|(.*)\\bsucks\\b(.*)|(.*)\\bbad\\b(.*)"))
+			if (input.matches(
+					"(?i)(.*)\\bnot good\\b(.*)|(.*)\\bnot great\\b(.*)|(.*)\\bad day\\b(.*)|(.*)\\bsucks\\b(.*)|(.*)\\bbad\\b(.*)"))
 				output[0] = "bad";
 			else
 				output[0] = "good";
@@ -426,6 +441,7 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[0] = output[0] + s + ", ";
+					matches++;
 				}
 			}
 			arrayString = listToString(personality.getDislikesMusic());
@@ -434,6 +450,7 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[1] = output[1] + s + ", ";
+					matches--;
 				}
 			}
 		}
@@ -444,6 +461,7 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[0] = output[0] + s + ", ";
+					matches++;
 				}
 			}
 		}
@@ -454,6 +472,7 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[0] = output[0] + s + ", ";
+					matches--;
 				}
 			}
 		}
@@ -464,6 +483,7 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[0] = output[0] + s + ", ";
+					matches++;
 				}
 			}
 			arrayString = listToString(personality.getDislikesSports());
@@ -472,48 +492,71 @@ public class handleInput {
 				s = scanner.nextLine();
 				if (input.matches("(.*)" + s + "(.*)")) {
 					output[1] = output[1] + s + ", ";
+					matches--;
 				}
 			}
 		}
-		if(data.equals("rps")) {
-			if(input.matches("(.*)\\brock\\b(.*)"))
+		if (data.equals("food")) {
+			arrayString = listToString(personality.getLikesFoods());
+			scanner = new Scanner(arrayString);
+			while (scanner.hasNextLine()) {
+				s = scanner.nextLine();
+				if (input.matches("(.*)" + s + "(.*)")) {
+					output[0] = output[0] + s + ", ";
+					matches++;
+				}
+			}
+			arrayString = listToString(personality.getDislikesFoods());
+			scanner = new Scanner(arrayString);
+			while (scanner.hasNextLine()) {
+				s = scanner.nextLine();
+				if (input.matches("(.*)" + s + "(.*)")) {
+					output[1] = output[1] + s + ", ";
+					matches--;
+				}
+			}
+		}
+		if (data.equals("rps")) {
+			if (input.matches("(.*)\\brock\\b(.*)"))
 				output[0] = "rock";
-			else if(input.matches("(.*)\\bpaper\\b(.*)"))
+			else if (input.matches("(.*)\\bpaper\\b(.*)"))
 				output[0] = "paper";
-			else if(input.matches("(.*)\\bscissors\\b(.*)"))
+			else if (input.matches("(.*)\\bscissors\\b(.*)"))
 				output[0] = "scissors";
 			else
 				output[0] = "nothing";
 		}
-			
+
 		if (input.equals("what"))
 			output[0] = "what";
 		if (output[0].endsWith(", "))
 			output[0] = output[0].substring(0, output[0].length() - 2);
 		if (output[1].endsWith(", "))
 			output[1] = output[1].substring(0, output[1].length() - 2);
-
+		output[2] = Integer.toString(matches);
 		return output;
 
 	}
 
 	public String keywordConvert(String keyword) {
-		if (keyword == "music")
+		if (keyword.equals("music"))
 			return "qmusic";
-		if (keyword == "movies")
+		if (keyword.equals("movies"))
 			return "qmovies";
-		if (keyword == "countries")
+		if (keyword.equals("countries"))
 			return "qcountries";
-		if (keyword == "sports")
+		if (keyword.equals("sports"))
 			return "qsports";
-		if (keyword == "howru")
+		if (keyword.equals("howru"))
 			return keyword;
-		if (keyword == "hobbies")
+		if (keyword.equals("hobbies"))
 			return "qhobbies";
-		if (keyword == "dislikes")
+		if (keyword.equals("dislikes"))
 			return "qdislikes";
-		if (keyword == "food")
+		if (keyword.equals("food"))
 			return "qfood";
+		if (keyword.equals("animals"))
+			return "qanimals";
 		else
 			return "invalid";
 	}

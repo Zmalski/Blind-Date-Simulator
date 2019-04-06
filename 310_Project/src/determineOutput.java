@@ -99,39 +99,46 @@ public class determineOutput {
 		/**qsports*/
 		 if(data.equals("qsports")) {
 			String likeSports = returnString(likeSportsList);
-			 hash_map.put("qsports","The sports I like " + likeSports);
+			 hash_map.put("qsports","The sports I like are " + likeSports);
 		 }
 		 /**qmusic*/
 		 if(data.equals("qmusic")) {
 			String likeMusicString = returnString(likeMusic);
-			 hash_map.put("qmusic","Music!! I really like " + likeMusicString);
+			 hash_map.put("qmusic","I really like " + likeMusicString);
 
 		 }
 		 /**qanimals*/
 		 if(data.equals("qanimals")) {
 			String likeAnimalString = returnString(likeAnimal);
-			 hash_map.put("qanimals","The animal I like " + likeAnimalString);
+			 hash_map.put("qanimals","The animals I like " + likeAnimalString);
 		 }
 		 /**qcountries*/
 		 if(data.equals("qcountries")) {
 			 String likeCountriesString = returnString(likeCountries);
-			 hash_map.put("qcountries","The countries I would like to travel " +  likeCountriesString );
+			 hash_map.put("qcountries","The countries I would like to travel to are " +  likeCountriesString );
 		 }
 		 /**qmovies*/
 		 if(data.equals("qmovies")) {
 			String likeMoviesString = returnString(likeMovies);
-			hash_map.put("qmovies","umm!!! The movies I like " +  likeMoviesString);
+			hash_map.put("qmovies","The movies I like are " +  likeMoviesString);
 		 }
 		 /**qfood*/
 		 if(data.equals("qfood")) {
 			 String food = returnString(likefood);
-			 hash_map.put("qfood","food!!! The food I like " +  food);
+			 hash_map.put("qfood","Some food I like is " +  food);
 		 }
 		 
 		if(hash_map.containsKey(data)) {
 			 responseBack = hash_map.get(data);	
 		 }else
 			 responseBack = "I am sorry, I don't understand the question.";
+		
+		if(responseBack.length() > 70) { // Adds a line break if line is too long.
+			int t = (int) (responseBack.length()/1.5);
+			responseBack = responseBack.substring(0, responseBack.length()/3) + "\n" + responseBack.substring(responseBack.length()/3, t) + "\n" + responseBack.substring(t, responseBack.length());
+		}else if(responseBack.length() > 50) // Adds a line break if line is too long.
+			responseBack = responseBack.substring(0, responseBack.length()/2) + "\n" + responseBack.substring(responseBack.length()/2, responseBack.length());
+
 		 return responseBack;
 	 } 
 	/**
