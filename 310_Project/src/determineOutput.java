@@ -110,7 +110,7 @@ public class determineOutput {
 		 /**qanimals*/
 		 if(data.equals("qanimals")) {
 			String likeAnimalString = returnString(likeAnimal);
-			 hash_map.put("qanimals","The animals I like " + likeAnimalString);
+			 hash_map.put("qanimals","The animals I like are " + likeAnimalString);
 		 }
 		 /**qcountries*/
 		 if(data.equals("qcountries")) {
@@ -133,7 +133,7 @@ public class determineOutput {
 		 }else
 			 responseBack = "I am sorry, I don't understand the question.";
 		
-		if(responseBack.length() > 70) { // Adds a line break if line is too long.
+		if(responseBack.length() > 80) { // Adds a line break if line is too long.
 			int t = (int) (responseBack.length()/1.5);
 			responseBack = responseBack.substring(0, responseBack.length()/3) + "\n" + responseBack.substring(responseBack.length()/3, t) + "\n" + responseBack.substring(t, responseBack.length());
 		}else if(responseBack.length() > 50) // Adds a line break if line is too long.

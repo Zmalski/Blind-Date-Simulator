@@ -75,10 +75,10 @@ public class terminalwgui extends Application {
 		Image neutral = new Image("file:neutral.jpg");
 		Image good = new Image("file:good.jpg");
 		Image great = new Image("file:great.jpg");
-		
+
 		ImageView imageView = new ImageView(neutral);
 		imageView.setCache(true);
-		
+
 		hb.getChildren().addAll(outField);
 		hb.setAlignment(Pos.TOP_LEFT);
 		hb.setPadding(new Insets(20, 80, 80, 20));
@@ -100,21 +100,6 @@ public class terminalwgui extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
-		
-
-		
-		
-		
-//		Image image = new Image(
-//				"https://upload.wikimedia.org/wikipedia/en/thumb/9/98/Blank_button.svg/1124px-Blank_button.svg.png");
-
-//    	TextInputDialog inField = new TextInputDialog();	   
-//	    inField.setWidth(200);
-//	    inField.setHeight(50);
-//	    inField.setHeaderText(username + ":");
-//	    inField.setTitle("Response");
-//	    inField.setGraphic(imageView);
-//	    inField.initStyle(StageStyle.UNDECORATED);
 		inField.requestFocus();
 		// ***********************************************************************
 
@@ -122,18 +107,19 @@ public class terminalwgui extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 				inField.requestFocus();
-				
-				
+
 				// Change display image depending on current score
-				if(scorekeeper.getScore() > 5)
-					imageView.setImage(great);
-				else if(scorekeeper.getScore() > 2)
-					imageView.setImage(good);
-				else if(scorekeeper.getScore() < -2)
-					imageView.setImage(neutralbad);
-				else if(scorekeeper.getScore() < -5)
-					imageView.setImage(bad);
-				else
+				if (scorekeeper.getScore() > 2) {
+					if (scorekeeper.getScore() > 5)
+						imageView.setImage(great);
+					else
+						imageView.setImage(good);
+				} else if (scorekeeper.getScore() < -2) {
+					if (scorekeeper.getScore() < -5)
+						imageView.setImage(bad);
+					else
+						imageView.setImage(neutralbad);
+				} else
 					imageView.setImage(neutral);
 				// System.out.print("\n" + username + ":");
 				// String userinput = inputHandler.getUserInput();
@@ -143,14 +129,18 @@ public class terminalwgui extends Application {
 				outField.appendText("\n" + username + ": " + userinput);
 				if (genderchosen == true && nameknown == true && jobknown == true) {
 					data = inputHandler.parseInput(userinput);
+					if (data.equals("swear"))
+						scorekeeper.updateScore(-2);
+					if (data.equals("insult"))
+						scorekeeper.updateScore(-5);
 
 					if (userinput.endsWith("?") && questionAsked == true) {
 						botoutput = outputDeterminer.respond(inputHandler.keywordConvert(qdata), p);
 						questionAsker.setBoolean(true, qdata);
 						questionAsked = false;
 					}
-					
-					else if (data.equals("nothing")) { //If user hasn't asked a question.
+
+					else if (data.equals("nothing")) { // If user hasn't asked a question.
 
 						if (questionAsked == true) {
 							// If question has been asked by bot, respond to response
@@ -160,7 +150,7 @@ public class terminalwgui extends Application {
 							afterAsk = true;
 						} else if (questionAsked == false) {
 							// If question hasn't been asked by bot, ask a question
-							question = questionAsker.ask();
+							question = questionAsker.ask(scorekeeper);
 							botoutput = question[0];
 							qdata = question[1];
 							questionAsked = true;

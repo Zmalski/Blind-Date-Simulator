@@ -346,9 +346,10 @@ public class handleInput {
 		int lastindex = 0;
 		int count = 0;
 		for (String word : words) {
+			word = processInput(word);
 			if (Character.isUpperCase(word.charAt(0))) {
 				if (!word.toLowerCase().equals("my") && !word.toLowerCase().equals("i'm")
-						&& !word.toLowerCase().equals("im")) {
+						&& !word.toLowerCase().equals("im") && !word.toLowerCase().equals("hi,") && !word.toLowerCase().equals("hello") && !word.toLowerCase().equals("hey")) {
 
 					capcount++;
 					lastindex = count;
@@ -359,7 +360,7 @@ public class handleInput {
 		if (capcount > 1)
 			name = words[lastindex];
 		else if (words[0].toLowerCase().equals("my") || words[0].toLowerCase().equals("i'm")
-				|| words[0].toLowerCase().equals("im"))
+				|| words[0].toLowerCase().equals("im") || words[0].toLowerCase().equals("hi,") || words[0].toLowerCase().equals("hello") || words[0].toLowerCase().equals("hey"))
 			name = words[words.length - 1];
 		else
 			name = words[0];
@@ -507,6 +508,26 @@ public class handleInput {
 				}
 			}
 			arrayString = listToString(personality.getDislikesFoods());
+			scanner = new Scanner(arrayString);
+			while (scanner.hasNextLine()) {
+				s = scanner.nextLine();
+				if (input.matches("(.*)" + s + "(.*)")) {
+					output[1] = output[1] + s + ", ";
+					matches--;
+				}
+			}
+		}
+		if (data.equals("animals")) {
+			arrayString = listToString(personality.getLikesAnimals());
+			scanner = new Scanner(arrayString);
+			while (scanner.hasNextLine()) {
+				s = scanner.nextLine();
+				if (input.matches("(.*)" + s + "(.*)")) {
+					output[0] = output[0] + s + ", ";
+					matches++;
+				}
+			}
+			arrayString = listToString(personality.getDislikesAnimals());
 			scanner = new Scanner(arrayString);
 			while (scanner.hasNextLine()) {
 				s = scanner.nextLine();

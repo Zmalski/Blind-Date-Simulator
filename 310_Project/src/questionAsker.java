@@ -10,30 +10,31 @@ public class questionAsker {
 	public boolean sports = false;
 	public boolean rps = false;
 	public boolean food = false;
+	public boolean animals = false;
 
-
-	
 	public void setBoolean(boolean input, String data) {
-		if(data.equals("movies"))
+		if (data.equals("movies"))
 			movies = input;
-		if(data.equals("music"))
+		if (data.equals("music"))
 			music = input;
-		if(data.equals("howru"))
+		if (data.equals("howru"))
 			howru = input;
-		if(data.equals("countries"))
+		if (data.equals("countries"))
 			countries = input;
-		if(data.equals("hobbies"))
+		if (data.equals("hobbies"))
 			hobbies = input;
-		if(data.equals("dislikes"))
+		if (data.equals("dislikes"))
 			dislikes = input;
-		if(data.equals("sports"))
+		if (data.equals("sports"))
 			sports = input;
-		if(data.equals("rps"))
+		if (data.equals("rps"))
 			rps = input;
-		if(data.equals("food"))
+		if (data.equals("food"))
 			food = input;
+		if (data.equals("animals"))
+			animals = input;
 	}
-	
+
 	/**
 	 * Returns an array containing a question to ask user and a keyword for data
 	 * processing
@@ -41,7 +42,7 @@ public class questionAsker {
 	 * @param void
 	 * @return Array containing question and question keyword
 	 */
-	public String[] ask() {
+	public String[] ask(scoring score) {
 		String outputArray[] = new String[2];
 		int random = (int) (Math.random() * 2 + 1);
 		if (howru == false) {
@@ -116,11 +117,27 @@ public class questionAsker {
 			else
 				outputArray[0] = "What is the best thing to eat after a long day?";
 			outputArray[1] = "food";
+		} else if (animals == false) {
+			// Picks one of three questions, randomly.
+			if (random == 1)
+				outputArray[0] = "What are your favourite animals?";
+			else if (random == 2)
+				outputArray[0] = "Do you have any pets?";
+			else
+				outputArray[0] = "If you could have any pet, what would it be?";
+			outputArray[1] = "animals";
 		} else if (rps == false) {
 			outputArray[0] = "Let's play rock paper scissors! Pick rock, paper or scissors.";
 			outputArray[1] = "rps";
 		} else {
-			outputArray[0] = "Sorry, I'm out of things to talk about! This has been fun though. We should go on another date sometime.";
+			if (score.getScore() > 5)
+				outputArray[0] = "Sorry, I'm out of things to talk about! This has been really fun though, we have a lot of things in common! I really want to go on another date.";
+			else if (score.getScore() > 2)
+				outputArray[0] = "Sorry, I'm out of things to talk about! This has been fun though. We should go on another date sometime.";
+			else if (score.getScore() < 1)
+				outputArray[0] = "Sorry, I'm out of things to talk about! I didn't really see a connection, so I'd prefer not to go on another date.";
+			else if(score.getScore() < -3)
+				outputArray[0] = "We really don't have anything in common. This date is over.";
 			outputArray[1] = "invalid";
 		}
 		return outputArray;
@@ -161,6 +178,11 @@ public class questionAsker {
 			if (empty)
 				output = "Oh! I haven't heard of those foods.";
 			food = true;
+		}
+		if (qdata.equals("animals")) {
+			if (empty)
+				output = "Oh! I haven't heard of those animals.";
+			animals = true;
 		}
 		if (qdata.equals("countries")) {
 			if (empty)
